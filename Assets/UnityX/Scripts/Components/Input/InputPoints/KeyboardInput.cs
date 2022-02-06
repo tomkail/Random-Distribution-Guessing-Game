@@ -49,12 +49,23 @@ public class KeyboardInput {
 		return direction.normalized;
 	}
 
+	static KeyCode[] keyCodes = {
+		KeyCode.Alpha1,
+		KeyCode.Alpha2,
+		KeyCode.Alpha3,
+		KeyCode.Alpha4,
+		KeyCode.Alpha5,
+		KeyCode.Alpha6,
+		KeyCode.Alpha7,
+		KeyCode.Alpha8,
+		KeyCode.Alpha9,
+	};
 	public static int? GetNumberKey () {
-		foreach (char c in Input.inputString) {
-			int num;
-			if(int.TryParse(c.ToString(), out num)){
-				return num;
-			}
+		for(int i = 0 ; i < keyCodes.Length; i ++ ){
+			if(Input.GetKeyDown(keyCodes[i])) {
+				int numberPressed = i+1;
+				return numberPressed;
+			} 
 		}
 		return null;
 	}

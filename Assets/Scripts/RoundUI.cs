@@ -7,6 +7,6 @@ public class RoundUI : MonoBehaviour
     public SLayout layout;
     void Update()
     {
-        layout.textMeshPro.text = GameController.Instance.round;
+        layout.textMeshPro.text = "Round "+GameController.Instance.round.ToString();
     }
 }
