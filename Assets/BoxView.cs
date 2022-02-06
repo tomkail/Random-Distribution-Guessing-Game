@@ -28,15 +28,12 @@ public class BoxView : MonoBehaviour {
 
     void OnClick () {
         GameController.Instance.animating = true;
-        GameController.Instance.currentPlayer.turns++;
+        
         var result = distribution.Sample();
         var delay = 0f;
         if(result == 0) {
             PickupAudio.Instance.PlayFail();
-            layout.After(0.5f, () => {
-                GameController.Instance.currentPlayerIndex++;
-                GameController.Instance.animating = false;
-            });
+            delay = 0.5f;
         } else {
             for(int i = 0; i < result; i++) {
                 var coin = coinPrototype.Instantiate<SLayout>();
@@ -61,12 +58,12 @@ public class BoxView : MonoBehaviour {
                 });
                 delay += 0.4f-(i*0.025f);
             }
-            
-            layout.After(delay, () => {
-                GameController.Instance.currentPlayerIndex++;
-                GameController.Instance.animating = false;
-            });
-
         }
+        layout.After(delay, () => {
+            GameController.Instance.currentPlayer.lives--;
+
+            GameController.Instance.AdvanceTurn();
+            GameController.Instance.animating = false;
+        });
     }
 }
