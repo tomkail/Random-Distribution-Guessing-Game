@@ -7,6 +7,7 @@ public class SpriteSheetAnimator : MonoBehaviour {
     public Sprite[] sprites;
     public Image image;
     public float FPS = 30;
+    public bool loop = true;
     [SerializeField, Disable]
     float currentFrame;
     [SerializeField, Disable]
@@ -14,14 +15,22 @@ public class SpriteSheetAnimator : MonoBehaviour {
     [SerializeField, Disable]
     int loopedCurrentFrameIndex;
 
-    public void Stop () {
+    void OnEnable () {
+        Reset();
+    }
+
+    public void Reset () {
         currentFrame = 0;
         currentFrameIndex = 0;
     }
     void Update() {
         currentFrame += Time.deltaTime * FPS;
         currentFrameIndex = Mathf.FloorToInt(currentFrame);
-        loopedCurrentFrameIndex = currentFrameIndex % sprites.Length;
+        if(loop) {
+            loopedCurrentFrameIndex = currentFrameIndex % sprites.Length;
+        } else {
+            loopedCurrentFrameIndex = currentFrameIndex = Mathf.Min(currentFrameIndex, sprites.Length-1);
+        }
         image.sprite = sprites[loopedCurrentFrameIndex];
     }
 
