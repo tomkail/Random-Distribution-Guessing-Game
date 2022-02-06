@@ -5,20 +5,29 @@ using UnityEngine;
 public class PickupAudio : MonoSingleton<PickupAudio> {
     public AudioSource audioSource;
     public AudioClip win;
-    public AudioClip fail;
+    public AudioClip lose;
+    public AudioClip nothing;
     public Prototype audioSourcePrototype;
-    public void Play(int combo) {
+    public void PlayGain(int combo) {
         audioSource.clip = win;
-        var pitch = 1f;
-        for(int i = 0; i < combo; i++) 
-            pitch *= 1.122324159021407f;
-
+        var pitch = GetPitchForCombo(combo);
         audioSource.pitch = pitch;
         audioSource.Play();
     }
-    public void PlayFail() {
-        audioSource.clip = fail;
+    public void PlayLose(int combo) {
+        audioSource.clip = lose;
+        var pitch = GetPitchForCombo(combo);
+        audioSource.pitch = pitch;
+        audioSource.Play();
+    }
+    public void PlayNothing() {
+        audioSource.clip = nothing;
         audioSource.pitch = 1;
         audioSource.Play();
+    }
+
+    public static float GetPitchForCombo (int combo) {
+        if(combo == 0 || combo == 1) return 1;
+        return Mathf.Pow(1.122324159021407f, combo);
     }
 }

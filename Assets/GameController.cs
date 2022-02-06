@@ -9,6 +9,7 @@ public class GameController : MonoSingleton<GameController> {
     
     public List<PlayerModel> players = new List<PlayerModel>();
     public PlayerModel currentPlayer;
+    public int round;
     public Sprite[] symbols;
 
     void OnEnable () {
@@ -34,6 +35,7 @@ public class GameController : MonoSingleton<GameController> {
         var livingPlayers = 0;
         int currentPlayerIndex = players.IndexOf(currentPlayer);
         for(int i = 1; i < players.Count+1; i++) {
+            var newPlayerIndex = players.GetRepeatingIndex(currentPlayerIndex+i);
             var player = players.GetRepeating(currentPlayerIndex+i);
             if(player.alive) {
                 livingPlayers++;
