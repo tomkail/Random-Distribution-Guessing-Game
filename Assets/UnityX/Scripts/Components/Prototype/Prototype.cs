@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 /// <summary>
 /// Convenience way to create objects in the hierarchy that are a bit like prefabs, except that they
@@ -91,6 +92,8 @@ public class Prototype : MonoBehaviour {
 
 			instance._originalPrototype = this;
 		}
+		if(_instances == null) _instances = new List<Prototype>();
+		_instances.Add(instance);
 
         instance.transform.localPosition = transform.localPosition;
         instance.transform.localRotation = transform.localRotation;
@@ -112,6 +115,7 @@ public class Prototype : MonoBehaviour {
 			return;
 		}
 			
+		_originalPrototype._instances.Remove(this);
 		_originalPrototype.AddToPool(this);
 	}
 
@@ -159,9 +163,18 @@ public class Prototype : MonoBehaviour {
 			instancePrototype.OnReturnToPool(this);
 	}
 
+	public void ReturnAllToPool() {
+		foreach(var prototype in instances) {
+			prototype.ReturnToPool();
+		}
+	}
+
 	Prototype _originalPrototype;
 
 	List<Prototype> _instancePool;
+	List<Prototype> _instances;
+
+	public IEnumerable<Prototype> instances => _instances == null ? Enumerable.Empty<Prototype>() : _instances;
 
     #if UNITY_EDITOR
     static bool applicationQuitting;

@@ -91,7 +91,7 @@ public class BoxView : MonoBehaviour {
         }
         layout.After(delay, () => {
             GameController.Instance.currentPlayer.lives--;
-
+            
             GameController.Instance.AdvanceTurn();
             GameController.Instance.animating = false;
         });

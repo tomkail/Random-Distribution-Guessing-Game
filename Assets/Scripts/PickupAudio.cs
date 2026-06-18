@@ -65,14 +65,12 @@ static class MusicUtils {
     public static int GetNumSemiTonesInScale (int startIndex, int steps, int[] intervals = null) {
         int semiTones = 0;
         var ascending = Mathf.Sign(steps) > 0;
-        var pitch = 1f;
         for(int si = 0; si < Mathf.Abs(steps)-1; si++) {
             var intervalIndex = startIndex + (ascending ? si : (majorScaleIntervals.Length-1)-si);
             var interval = intervals.GetRepeating(intervalIndex);
             for(int ii = 0; ii < interval; ii++) {
                 semiTones += ascending ? 1 : -1;
             }
-            Debug.Log(si+" "+pitch+" "+steps +" "+intervalIndex+" "+interval+" "+semiToneFrequency);
         }
         return semiTones;
     }
